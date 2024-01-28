@@ -2,7 +2,7 @@ import torch
 seed = 12
 
 
-class Model(torch.nn.Module):
+class NNModel(torch.nn.Module):
     def __init__(self):
         super().__init__()
         hidden_size = 5

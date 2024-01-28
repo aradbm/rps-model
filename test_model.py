@@ -2,7 +2,7 @@ import os
 import cv2
 import numpy as np
 import torch
-from nn_model import Model
+from rps_nn_model import NNModel
 import matplotlib.pyplot as plt
 import tkinter as tk
 
@@ -17,7 +17,7 @@ root.destroy()
 fig_width = screen_width * 0.75 / 100
 fig_height = screen_height * 0.75 / 100  # 100 pixels/inch is a typical value
 
-model = Model()
+model = NNModel()
 model.load_state_dict(torch.load('rps_model.pt'))
 
 rock_path = 'dataset/rock'

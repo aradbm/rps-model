@@ -1,7 +1,7 @@
 '''
 We build a simple model from zero to predict the outcome of a rock-paper-scissors game using python.
-Using SoftMax + 1 layer of Neural network.
-- Input: 300x200x3 (RGB) images of hand gestures
+Using only SoftMax
+- Input: 300x200 (RGB) images of hand gestures
 - Output: 3 classes (rock, paper, scissors)
 
 Steps:
@@ -29,28 +29,24 @@ import os
 import numpy as np
 import torch
 import cv2
-from softmax_model import SimpleSoftmaxModel
+from rps_softmax_model import SimpleSoftmaxModel
+import matplotlib.pyplot as plt
 # define seed
 seed = 12
 
+################# Loading the dataset #################
 # Path to paper, rock, scissors folders
 rock_path = 'dataset/rock'
 paper_path = 'dataset/paper'
 scissors_path = 'dataset/scissors'
-
 # Get the list of images in each folder
 rock_images = os.listdir(rock_path)
 paper_images = os.listdir(paper_path)
 scissors_images = os.listdir(scissors_path)
-
 '''
-Now we want to read the photos to a numpy array of shape (300, 200) after greyscaling
-We also want to create a label array of shape (1, 3) for each image
-for example: if the image is rock, the label will be [1, 0, 0]
+Here we read the photos to a numpy array of shape (300, 200) each, after greyscaling.
 We will use the following labels:
-0: rock
-1: paper
-2: scissors
+0: rock     1: paper     2: scissors
 '''
 
 
@@ -85,24 +81,19 @@ labels = np.concatenate((rock_labels, paper_labels, scissors_labels))
 # Normalize pixel values
 images = images/255.0
 
-# Now we split the data to train and test sets (80%, 20%), using train_test_split
+test_size = 0.2
+# Here we split the data to train and test sets (80%, 20%), using train_test_split
 train_images, test_images, train_labels, test_labels = train_test_split(
-    images, labels, test_size=0.2, random_state=seed)
+    images, labels, test_size=test_size, random_state=seed)
 
-
-# Now we create the model, using SoftMax + 1 layer of Neural network
-# Input: 300x200x1
-# output: 3 classes (rock, paper, scissors)
-
-
-# -----------------Training and testing the model-----------------
-# Create the model
+################# Creating the model #################
 model = SimpleSoftmaxModel()
-# Define the loss function
 loss_function = torch.nn.CrossEntropyLoss()
 
 ################# Training #################
 # Now we train the model
+# We plot later the loss, validation loss and validation accuracy
+losses = []
 # Define the number of epochs
 epochs = 100
 # Define the batch size
@@ -120,7 +111,6 @@ for epoch in range(epochs):
         batch_labels = train_labels[i:i+batch_size]
         # Convert the batch images to tensor
         batch_images = torch.tensor(batch_images, dtype=torch.float32)
-        # print(" batch image type:" + batch_images.type)
         # Convert the batch labels to tensor
         batch_labels = torch.tensor(batch_labels, dtype=torch.long)
         # Get the model predictions
@@ -137,15 +127,15 @@ for epoch in range(epochs):
                 param -= learning_rate * param.grad
         # Add the loss to the total loss
         total_loss += loss.item()
+    # add the loss to the losses list
+    losses.append(total_loss)
     # Print the loss
     print(f'Epoch: {epoch}, Loss: {total_loss}')
 
 
 ################# Testing #################
-# Now we test the model on the test set
-# Define the number of correct predictions
+# Here we loop through the test set, print the accuracy and show the loss plot.
 correct_predictions = 0
-# Loop through the test set
 model.eval()
 for i in range(len(test_images)):
     # Get the image
@@ -157,16 +147,19 @@ for i in range(len(test_images)):
     # Get the model prediction
     prediction = model(image)
     # Get the predicted label
-
     predicted_label = torch.argmax(prediction)
     if predicted_label.item() == label:
         # Increment the number of correct predictions
         correct_predictions += 1
-# Calculate the accuracy
 accuracy = correct_predictions/len(test_images)
-# Print the accuracy
 print(f'Accuracy: {accuracy}')
 
+plt.plot(losses)
+plt.title('Loss by Epoch')
+plt.xlabel('Epoch')
+plt.ylabel('Loss')
+plt.show()
 
+################# Saving the model #################
 # save the model state dictionary, so we can load it later
-torch.save(model.state_dict(), 'rps_model.pt')
+torch.save(model.state_dict(), 'rps_softmax_model.pt')

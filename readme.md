@@ -6,8 +6,8 @@ This project, focuses on classifying images into rock, paper, or scissors catego
 
 ## Data Preparation
 
-- The dataset consists of hand gesture images sized at 300x200 pixels, classified into rock, paper, and scissors categories.
-- We converted the images to grayscale to reduce computational complexity without significantly impacting accuracy.
+- The dataset consists of hand gesture images sized at 300x200x3 pixels, classified into rock, paper, and scissors categories.
+- We converted the images to grayscale to reduce computational complexity without significantly impacting accuracy, Changing the images from 300x200x3 to 300x200.
 - The dataset is split into 80% for training and 20% for testing.
 
 ## Model Architecture
@@ -25,14 +25,14 @@ This project, focuses on classifying images into rock, paper, or scissors catego
 
 2. **Model Training**:
 
-   - Run `python rps_simple_nn_model.py` or `python softmax_model.py` to train the model.
+   - Run `python rps_nn_model.py` or `python rps_softmax_model.py` to train the model.
 
 3. **Testing the Model**:
    - Execute `python test_model.py` to test the model on sample images from the `pics` subfolder.
 
-## Future Work
+## TODO:
 
-We plan to implement a more sophisticated model, such as a convolutional neural network, in our final project for improved accuracy in image classification tasks.
+We plan to implement a more advanced model, such as a convolutional neural network, in our final project for improved accuracy in image classification tasks.
 
 ## Contributors
 
