@@ -29,7 +29,7 @@ import os
 import numpy as np
 import torch
 import cv2
-from model import Model
+from nn_model import Model
 # define seed
 seed = 12
 
@@ -104,7 +104,7 @@ loss_function = torch.nn.CrossEntropyLoss()
 ################# Training #################
 # Now we train the model
 # Define the number of epochs
-epochs = 200
+epochs = 100
 # Define the batch size
 batch_size = 32
 learning_rate = 0.001

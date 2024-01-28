@@ -2,7 +2,7 @@ import os
 import cv2
 import numpy as np
 import torch
-from model import Model
+from nn_model import Model
 import matplotlib.pyplot as plt
 import tkinter as tk
 
@@ -54,7 +54,7 @@ def show_images(images, labels, title, path):
 
         current_image += 1
 
-    fig.suptitle(title, fontsize=20)
+    # fig.suptitle(title, fontsize=20)
 
 
 show_images(rock_images, [0]*5, 'Rock', rock_path)
