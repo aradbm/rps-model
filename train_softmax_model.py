@@ -2,7 +2,7 @@
 We build a simple model using only SoftMax,
 to predict the outcome of a rock-paper-scissors game using python.
 
-- Input: 300x200 (RGB) images of hand gestures
+- Input: 300x200 (grey) images of hand gestures
 - Output: 3 classes (rock, paper, scissors)
 
 Steps:

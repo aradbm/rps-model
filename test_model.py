@@ -1,6 +1,5 @@
 import os
 import cv2
-import numpy as np
 import torch
 from rps_nn_model import NNModel
 import matplotlib.pyplot as plt

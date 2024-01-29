@@ -1,5 +1,5 @@
 '''
-We build a simple model using a simple neural network and softmax:
+We build a simple model using a simple neural network and softmax,
 to predict the outcome of a rock-paper-scissors game using python.
 
 - Input: 300x200 (grey) images of hand gestures
