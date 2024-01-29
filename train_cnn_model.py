@@ -15,13 +15,14 @@ Steps:
 We will use the following labels:
 0: rock     1: paper     2: scissors
 '''
-from sklearn.model_selection import train_test_split
 import os
-import numpy as np
+import random
 import torch
 import cv2
-from rps_cnn_model import CNNModel
+import numpy as np
 import matplotlib.pyplot as plt
+from rps_cnn_model import CNNModel
+from sklearn.model_selection import train_test_split
 # define seed
 seed = 12
 
@@ -36,30 +37,55 @@ paper_images = os.listdir(paper_path)
 scissors_images = os.listdir(scissors_path)
 
 
-def read_images_and_labels(path, label):
+def read_images_and_labels(path, label, augment=False):
     images = []
     labels = []
     for image in os.listdir(path):
-        # Read the image
+        # Read and preprocess the image
         img = cv2.imread(os.path.join(path, image))
-        # Resize the image to (300, 200)
         img = cv2.resize(img, (300, 200))
-        # Convert the image to grayscale
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        # Append the image to the images list
+
+        # Append the original image to the dataset
         images.append(img)
-        # Append the label to the labels list
         labels.append(label)
-    # Convert the images and labels lists to numpy arrays
+
+        if augment:
+            # Apply augmentation
+            augmented_img = img.copy()
+
+            # Rotation
+            angle = random.randint(-15, 15)
+            M = cv2.getRotationMatrix2D((150, 100), angle, 1)
+            augmented_img = cv2.warpAffine(augmented_img, M, (300, 200))
+
+            # Scaling
+            scale = random.uniform(0.9, 1.1)
+            augmented_img = cv2.resize(
+                augmented_img, None, fx=scale, fy=scale, interpolation=cv2.INTER_LINEAR)
+            augmented_img = cv2.resize(augmented_img, (300, 200))
+
+            # Adding Noise
+            gauss = np.random.normal(0, 1, augmented_img.size)
+            gauss = gauss.reshape(
+                augmented_img.shape[0], augmented_img.shape[1]).astype('uint8')
+            augmented_img = cv2.add(augmented_img, gauss)
+
+            # Append the augmented image to the dataset
+            images.append(augmented_img)
+            labels.append(label)
+
     images = np.array(images)
     labels = np.array(labels)
     return images, labels
 
 
 # Read the rock, paper and scissors images and labels
-rock_images, rock_labels = read_images_and_labels(rock_path, 0)
-paper_images, paper_labels = read_images_and_labels(paper_path, 1)
-scissors_images, scissors_labels = read_images_and_labels(scissors_path, 2)
+rock_images, rock_labels = read_images_and_labels(rock_path, 0, augment=True)
+paper_images, paper_labels = read_images_and_labels(
+    paper_path, 1, augment=True)
+scissors_images, scissors_labels = read_images_and_labels(
+    scissors_path, 2, augment=True)
 
 # Concatenate the rock, paper and scissors images and labels
 images = np.concatenate((rock_images, paper_images, scissors_images))
@@ -82,7 +108,7 @@ loss_function = torch.nn.CrossEntropyLoss()
 losses = []
 accuracies = []
 # Define the number of epochs
-epochs = 10
+epochs = 2
 learning_rate = 0.001
 # Define the batch size
 batch_size = 32

@@ -15,13 +15,13 @@ Steps:
 We will use the following labels:
 0: rock     1: paper     2: scissors
 '''
-from sklearn.model_selection import train_test_split
 import os
-import numpy as np
 import torch
 import cv2
-from rps_nn_model import NNModel
+import numpy as np
 import matplotlib.pyplot as plt
+from rps_nn_model import NNModel
+from sklearn.model_selection import train_test_split
 # define seed
 seed = 12
 
