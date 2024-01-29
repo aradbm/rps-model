@@ -8,8 +8,7 @@ import tkinter as tk
 import random
 
 
-# Set the number of images to display for each class
-num_images_per_class = 8  # Change this number to display more or fewer images
+num_images_per_class = 8
 
 ###### Initialize Tkinter and get screen dimensions ######
 root = tk.Tk()

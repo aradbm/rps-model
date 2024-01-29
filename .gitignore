@@ -2,5 +2,5 @@ __pycache__/
 dataset/
 .DS_Store
 rps_nn_model.pt
-rps_cnn_light_model.pt
+rps_cnn_model.pt
 rps_softmax_model.pt

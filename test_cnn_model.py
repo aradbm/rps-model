@@ -1,14 +1,13 @@
 import os
 import cv2
 import torch
-from rps_cnn_light_model import LightCNNModel
+from rps_cnn_model import CNNModel
 import matplotlib.pyplot as plt
 import tkinter as tk
 import random
 
 
-# Set the number of images to display for each class
-num_images_per_class = 8  # Change this number to display more or fewer images
+num_images_per_class = 8
 
 ###### Initialize Tkinter and get screen dimensions ######
 root = tk.Tk()
@@ -24,8 +23,8 @@ grid_size = 3 * num_images_per_class  # rows, columns
 current_image = 1  # Start with 1
 
 ###### Load the model ######
-model = LightCNNModel()
-model.load_state_dict(torch.load('rps_nn_model.pt'))
+model = CNNModel()
+model.load_state_dict(torch.load('rps_cnn_model.pt'))
 
 ###### Load the images ######
 rock_path = 'dataset/rock'

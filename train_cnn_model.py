@@ -20,7 +20,7 @@ import os
 import numpy as np
 import torch
 import cv2
-from rps_cnn_light_model import LightCNNModel
+from rps_cnn_model import CNNModel
 import matplotlib.pyplot as plt
 # define seed
 seed = 12
@@ -73,13 +73,14 @@ train_images, test_images, train_labels, test_labels = train_test_split(
     images, labels, test_size=test_size, random_state=seed)
 
 ################# Creating the model #################
-model = LightCNNModel()
+model = CNNModel()
 loss_function = torch.nn.CrossEntropyLoss()
 
 ################# Training #################
 # Now we train the model
 # We plot later the loss, validation loss and validation accuracy
 losses = []
+accuracies = []
 # Define the number of epochs
 epochs = 10
 learning_rate = 0.001
@@ -116,18 +117,17 @@ for epoch in range(epochs):
         loss.backward()
         # Update the weights
         optimizer.step()
-    # Calculate the loss for every 10th epoch
-    if epoch % 5 == 0:
-        # Calculate the loss on the test set
-        test_outputs = model(test_images.unsqueeze(1))
-        test_loss = loss_function(test_outputs, test_labels)
-        # Calculate the accuracy on the test set
-        _, predicted = torch.max(test_outputs.data, 1)
-        correct_predictions = (predicted == test_labels).sum().item()
-        accuracy = correct_predictions / test_labels.size(0)
-        print('Epoch: {}, Loss: {}, Accuracy: {}'.format(
-            epoch, test_loss.item(), accuracy))
-    # Append the loss to losses list
+    ################# Validation #################
+    # Calculate the loss on the test set
+    test_outputs = model(test_images.unsqueeze(1))
+    test_loss = loss_function(test_outputs, test_labels)
+    # Calculate the accuracy on the test set
+    _, predicted = torch.max(test_outputs.data, 1)
+    correct_predictions = (predicted == test_labels).sum().item()
+    accuracy = correct_predictions / test_labels.size(0)
+    print('Epoch: {}, Loss: {}, Accuracy: {}'.format(
+        epoch, test_loss.item(), accuracy))
+    accuracies.append(accuracy)
     losses.append(loss.item())
 
 
@@ -150,14 +150,17 @@ for i in range(len(test_images)):
         # Increment the number of correct predictions
         correct_predictions += 1
 accuracy = correct_predictions/len(test_images)
-print(f'Accuracy: {accuracy}')
+print(f'Final model accuracy: {accuracy}')
 
+# plot the loss and the accuracy
 plt.plot(losses)
-plt.title('Loss by Epoch')
+plt.plot(accuracies)
+plt.title('Loss and Accuracy of the model')
 plt.xlabel('Epoch')
-plt.ylabel('Loss')
+plt.ylabel('Loss/Accuracy')
+plt.legend(['Loss', 'Accuracy'])
 plt.show()
 
 ################# Saving the model #################
 # save the model state dictionary, so we can load it later
-torch.save(model.state_dict(), 'rps_cnn_light_model.pt')
+torch.save(model.state_dict(), 'rps_cnn_model.pt')
