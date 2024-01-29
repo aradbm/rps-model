@@ -1,29 +1,20 @@
 '''
-We build a simple model from zero to predict the outcome of a rock-paper-scissors game using python.
-Using only SoftMax
-- Input: 300x200 (RGB) images of hand gestures
+We build a simple model using a simple neural network and softmax:
+to predict the outcome of a rock-paper-scissors game using python.
+
+- Input: 300x200 (grey) images of hand gestures
 - Output: 3 classes (rock, paper, scissors)
 
 Steps:
-1. Load the dataset, turn the images to grey, then seperate to train and test sets (80%, 20%)
+1. Load the dataset 
+2. Turn the images to grey & seperate to train and test sets (80%, 20%)
 2. Create a model
 3. Train the model
 4. Test the model
 
----Dataset: https://www.kaggle.com/drgfreeman/rockpaperscissors---
-DESCRIPTION: This dataset contains images of hand gestures from the Rock-Paper-Scissors game. 
-CONTENTS: The dataset contains a total of 2188 images corresponding to:
-'Rock' (726 images)
-'Paper' (710 images)
-'Scissors' (752 images)
-All image are taken on a green background with relatively consistent ligithing and white balance.
-FORMAT: All images are RGB images of 300 pixels wide by 200 pixels high in .png format. 
-
-The images are separated in three sub-folders named 'rock', 'paper' and 'scissors', according to their respective class.
-# images are located in dataset folder. for example: dataset/rock contains 726 images of rock hand gesture.
+We will use the following labels:
+0: rock     1: paper     2: scissors
 '''
-
-# Import libraries
 from sklearn.model_selection import train_test_split
 import os
 import numpy as np
@@ -43,11 +34,6 @@ scissors_path = 'dataset/scissors'
 rock_images = os.listdir(rock_path)
 paper_images = os.listdir(paper_path)
 scissors_images = os.listdir(scissors_path)
-'''
-Here we read the photos to a numpy array of shape (300, 200) each, after greyscaling.
-We will use the following labels:
-0: rock     1: paper     2: scissors
-'''
 
 
 def read_images_and_labels(path, label):
