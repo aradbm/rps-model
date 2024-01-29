@@ -13,18 +13,19 @@ This project focuses on classifying images of hand gestures into rock, paper, or
 ## Model Architecture
 
 ### Simple Neural Network Model
+
 - Input layer with 60,000 nodes (flattened grayscale images), a hidden layer with 5 nodes (ReLU activation), and an output layer with 3 nodes (SoftMax function).
 - Trained over 100 epochs with a learning rate of 0.001, using cross-entropy as the loss function.
 - Achieved an accuracy of 76%, while a simpler SoftMax model achieved 73% accuracy.
 
 ### Convolutional Neural Network Model
-- The CNN model, defined in `LightCNNModel`, employs a lightweight architecture for efficient image classification.
+
+- The CNN model, defined in `CNNModel`, employs an architecture for efficient image classification.
 - It consists of two convolutional layers: the first with 8 filters and the second with 16 filters, both using a kernel size of 3. Each convolutional layer is followed by max pooling for feature reduction.
-- The network uses ReLU activation functions and incorporates a two-layer fully connected network, reducing the dimension from 16 * 75 * 50 to 256, and finally to 3 for classification.
+- The network uses ReLU activation functions and incorporates a two-layer fully connected network, reducing the dimension from 16 _ 75 _ 50 to 256, and finally to 3 for classification.
 - The model is initialized with Xavier uniform initialization for both convolutional and fully connected layers, ensuring optimal weights at the start.
 - Seed-based initialization is used to ensure reproducibility of the model's performance.
 - This architecture demonstrates improved accuracy over simpler neural network models, making it more suitable for complex image classification tasks like distinguishing between rock, paper, and scissors hand gestures.
-
 
 ## Instructions
 
