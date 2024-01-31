@@ -6,13 +6,15 @@ seed = 12
 
 
 class CNNModel(nn.Module):
-    def __init__(self):
+    def __init__(self, dropout_rate=0.5):
         super(CNNModel, self).__init__()
         # Convolutional layers
         self.conv1 = nn.Conv2d(1, 8, kernel_size=3, stride=1, padding=1)
         self.conv2 = nn.Conv2d(8, 16, kernel_size=3, stride=1, padding=1)
         # Max pooling
         self.pool = nn.MaxPool2d(kernel_size=2, stride=2, padding=0)
+        # Dropout
+        self.dropout = nn.Dropout(dropout_rate)
         # Fully connected layers
         self.fc1 = nn.Linear(16 * 75 * 50, 256)
         self.fc2 = nn.Linear(256, 3)
@@ -28,11 +30,14 @@ class CNNModel(nn.Module):
         x = x.view(-1, 16 * 75 * 50)
         # Apply first fully connected layer
         x = F.relu(self.fc1(x))
+        # Apply dropout
+        x = self.dropout(x)
         # Apply second fully connected layer
         x = self.fc2(x)
         return x
 
     def init_weights(self):
+        # Initialize weights using Xavier initialization and zero bias
         torch.manual_seed(seed)
         torch.nn.init.xavier_uniform_(self.conv1.weight)
         torch.nn.init.xavier_uniform_(self.conv2.weight)
