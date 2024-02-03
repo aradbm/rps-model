@@ -24,46 +24,44 @@ current_image = 1  # Start with 1
 
 ###### Load the model ######
 model = CNNModel()
-model.load_state_dict(torch.load('rps_cnn_model.pt'))
+model.load_state_dict(torch.load('rps_cnn_model.pt',
+                      map_location=torch.device('cpu')))
+
 
 ###### Load the images ######
 rock_path = 'dataset/rock'
 paper_path = 'dataset/paper'
 scissors_path = 'dataset/scissors'
+
 rock_images = random.sample(os.listdir(rock_path), min(
     num_images_per_class, len(os.listdir(rock_path))))
 paper_images = random.sample(os.listdir(paper_path), min(
     num_images_per_class, len(os.listdir(paper_path))))
 scissors_images = random.sample(os.listdir(scissors_path), min(
     num_images_per_class, len(os.listdir(scissors_path))))
+model.eval()
 
 
 def show_images(images, labels, path):
     global current_image
     # Show up to num_images_per_class images
-    for i in range(min(len(images), num_images_per_class)):
-        # Read the image
+    for i in range(num_images_per_class):
         img = cv2.imread(os.path.join(path, images[i]))
-        # Resize the image to (300, 200)
         img = cv2.resize(img, (300, 200))
-        # Convert the image to grayscale
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        img = torch.tensor(img).float()
+        # normalize the image
+        img = img / 255.0
         # Predict the image
-        pred = model(torch.tensor(img).view(1, 1, 200, 300).float())
-        # Get the predicted label
-        pred = torch.argmax(pred).item()
-        # Get the true label
-        true = labels[i % len(labels)]
+        pred = model(img.unsqueeze(0)).argmax().item()
+        true = labels[i]
         # Add the subplot to the figure
         ax = fig.add_subplot(3, num_images_per_class, current_image)
         # Remove the x and y ticks
         ax.set_xticks([])
         ax.set_yticks([])
-        # Show the image
-        plt.imshow(img, cmap='gray')
-        # Set the title of the subplot
+        plt.imshow(img)
         ax.set_title('Pred: ' + str(pred) + ' True: ' + str(true))
-        # Increment the current image
         current_image += 1
 
 
