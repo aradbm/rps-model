@@ -4,6 +4,24 @@
 
 This project focuses on classifying images of hand gestures into rock, paper, or scissors categories using neural network models. We demonstrate the effectiveness of both simple and advanced neural network models, including a CUDA-compatible Convolutional Neural Network (CNN) with dropout and data augmentation, on image classification tasks.
 
+## Kaggle Notebook
+
+- You can find the CUDA-compatible CNN model and its running on Kaggle here: [[Rock-Paper-Scissors Classification - 97.9% Acc](https://www.kaggle.com/code/aradbenmenashe/rock-paper-scissors-classification-97-9-acc)]
+
+## Performance
+
+The following table summarizes the performance of the CNN model under various configurations:
+
+| No. | Epochs | Augmented Data | Learning Rate | Drop Out | Final Accuracy % |
+| --- | ------ | -------------- | ------------- | -------- | ---------------- |
+| 1   | 100    | T              | 0.0001        | X        | 93.6             |
+| 2   | 100    | T              | 0.001         | 0.5      | 95.6             |
+| 3   | 100    | F              | 0.001         | 0.5      | 92.9             |
+| 4   | 50     | T              | 0.001         | 0.3      | 97.94            |
+| 5   | 50     | T              | 0.001         | X        | 92.92            |
+| 6   | 50     | F              | 0.001         | 0.3      | 93.83            |
+| 7   | 50     | F              | 0.001         | X        | 92.46            |
+
 ## Data Preparation
 
 - The dataset consists of hand gesture images sized at 300x200x3 pixels, classified into rock, paper, and scissors categories.
@@ -29,19 +47,6 @@ This project focuses on classifying images of hand gestures into rock, paper, or
 - The model is initialized with Xavier uniform initialization for both convolutional and fully connected layers, ensuring optimal weights at the start.
 - Seed-based initialization is used to ensure reproducibility of the model's performance.
 - This architecture demonstrates improved accuracy over simpler neural network models, making it more suitable for complex image classification tasks like distinguishing between rock, paper, and scissors hand gestures.
-
-## Performance
-
-The following table summarizes the performance of the CNN model under various configurations:
-
-| No. | Epochs | Augmented Data | Learning Rate | Drop Out | Final Accuracy % |
-| --- | ------ | -------------- | ------------- | -------- | ---------------- |
-| 1   | 100    | T              | 0.0001        | X        | 95.6             |
-| 2   | 100    | F              | 0.001         | 0.5      | 92.9             |
-| 3   | 100    | T              | 0.0001        | 0.3      | 97.26            |
-| 4   | 50     | T              | 0.25          | 0.25     | 97.71            |
-| 5   | 50     | T              | 0.001         | 0.3      | 98.17            |
-| 6   | 50     | T              | 0.001         | X        | 92.92            |
 
 ## Instructions
 
