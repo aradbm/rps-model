@@ -4,6 +4,8 @@
 
 This project focuses on classifying images of hand gestures into rock, paper, or scissors categories using neural network models. We demonstrate the effectiveness of both simple and advanced neural network models, including a CUDA-compatible Convolutional Neural Network (CNN) with dropout and data augmentation, on image classification tasks.
 
+![cnn_model](images/cnn_model.png)
+
 ## Kaggle Notebook
 
 - You can find the CUDA-compatible CNN model and its running on Kaggle here: [[Rock-Paper-Scissors Classification - 97.9% Acc](https://www.kaggle.com/code/aradbenmenashe/rock-paper-scissors-classification-97-9-acc)]
@@ -21,6 +23,10 @@ The following table summarizes the performance of the CNN model under various co
 | 5   | 50     | T              | 0.001         | X        | 92.92            |
 | 6   | 50     | F              | 0.001         | 0.3      | 93.83            |
 | 7   | 50     | F              | 0.001         | X        | 92.46            |
+
+<p align="center">
+   <img src="images/output1.png" width=300/>
+</p>
 
 ## Data Preparation
 
