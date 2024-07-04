@@ -4,7 +4,9 @@
 
 This project focuses on classifying images of hand gestures into rock, paper, or scissors categories using neural network models. We demonstrate the effectiveness of both simple and advanced neural network models, including a CUDA-compatible Convolutional Neural Network (CNN) with dropout and data augmentation, on image classification tasks.
 
-![cnn_model](images/cnn_model.png)
+[Project Instructions](metadata/Project_Instructions.pdf) & [Detailed Project Book](RPS_Project_Book.pdf)
+
+![cnn_model](metadata/cnn_model.png)
 
 ## Kaggle Notebook
 
@@ -25,7 +27,7 @@ The following table summarizes the performance of the CNN model under various co
 | 7   | 50     | F              | 0.001         | X        | 92.46            |
 
 <p align="center">
-   <img src="images/output1.png" width=300/>
+   <img src="metadata/output1.png" width=300/>
 </p>
 
 ## Data Preparation
